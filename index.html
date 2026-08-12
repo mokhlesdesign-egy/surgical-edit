@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Surgical Edit — نسخة تجريبية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#C8A765;
+    --gold-bright:#e0c084;
+    --gold-dim:#8a7245;
+    --bg:#0b0b0d;
+    --bg2:#111114;
+    --panel:rgba(255,255,255,0.035);
+    --panel-border:rgba(200,167,101,0.16);
+    --panel2:#1c1c20;
+    --text:#f1ead9;
+    --muted:#9a9488;
+    --danger:#d97064;
+    --ok:#6bbf7f;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 600px at 15% -10%, rgba(200,167,101,0.10), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(200,167,101,0.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:"Cairo","Tahoma",sans-serif;
+    line-height:1.75;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:46px 20px 30px;
+    text-align:center;
+    max-width:760px;
+    margin:0 auto;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(200,167,101,0.12);
+    border:1px solid var(--panel-border);
+    color:var(--gold-bright);
+    font-size:12.5px;
+    padding:5px 14px;
+    border-radius:999px;
+    margin-bottom:16px;
+  }
+  .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--gold-bright);box-shadow:0 0 8px var(--gold-bright)}
+  .hero h1{
+    margin:0 0 10px;
+    font-size:clamp(26px,4vw,38px);
+    font-weight:800;
+    background:linear-gradient(90deg,var(--gold-bright),var(--gold));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    letter-spacing:.2px;
+  }
+  .hero p.tagline{margin:0 auto 22px;color:var(--muted);font-size:15px;max-width:520px}
+  .howit{
+    display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px;
+  }
+  .howit .hi{
+    flex:1;min-width:130px;max-width:160px;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:14px;
+    padding:14px 10px;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  .howit .hi .ic{font-size:22px;display:block;margin-bottom:6px}
+  .howit .hi b{color:var(--text);display:block;margin-bottom:2px;font-size:13px}
+
+  /* ---------- Stepper ---------- */
+  .stepper{
+    max-width:920px;margin:0 auto 6px;padding:0 16px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .stepper .seg{flex:1;height:2px;background:#2a2a2e;position:relative;top:-15px;margin:0 -2px}
+  .stepper .seg.done{background:var(--gold-dim)}
+  .stepper .dot-wrap{
+    display:flex;flex-direction:column;align-items:center;gap:6px;min-width:56px;
+  }
+  .stepper .circle{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--panel2);border:1px solid #333338;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;color:var(--muted);
+    transition:all .25s;
+  }
+  .stepper .dot-wrap.active .circle{background:var(--gold);color:#111;border-color:var(--gold);box-shadow:0 0 14px rgba(200,167,101,0.5)}
+  .stepper .dot-wrap.done .circle{background:transparent;border-color:var(--gold-dim);color:var(--gold-bright)}
+  .stepper .lbl{font-size:11px;color:var(--muted)}
+  .stepper .dot-wrap.active .lbl{color:var(--gold-bright)}
+
+  .wrap{max-width:920px;margin:0 auto;padding:22px 16px 60px}
+  .card{
+    background:var(--panel);
+    backdrop-filter:blur(6px);
+    border:1px solid var(--panel-border);
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:18px;
+    transition:border-color .2s;
+  }
+  .card h2{
+    margin:0 0 14px;
+    font-size:17px;
+    font-weight:700;
+    color:var(--gold-bright);
+    display:flex;align-items:center;gap:8px;
+  }
+  .step-num{
+    background:var(--gold);
+    color:#111;
+    width:24px;height:24px;
+    border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:bold;
+  }
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  input[type="password"], input[type="text"], select, textarea{
+    width:100%;
+    background:var(--panel2);
+    border:1px solid #333338;
+    color:var(--text);
+    padding:10px 12px;
+    border-radius:10px;
+    font-size:14px;
+    font-family:inherit;
+  }
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--gold-dim)}
+  textarea{resize:vertical;min-height:70px}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row > *{flex:1;min-width:180px}
+  button{
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold));
+    color:#161208;
+    border:none;
+    padding:11px 20px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .12s, box-shadow .12s, opacity .15s;
+    font-family:inherit;
+  }
+  button:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(200,167,101,0.25)}
+  button:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+  button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--gold-dim);box-shadow:none}
+  button.ghost{background:transparent;color:var(--gold-bright);border:1px solid var(--panel-border);box-shadow:none}
+  .dropzone{
+    border:2px dashed #3a3a40;
+    border-radius:14px;
+    padding:28px;
+    text-align:center;
+    cursor:pointer;
+    color:var(--muted);
+    transition:border-color .15s, background .15s;
+  }
+  .dropzone:hover{background:rgba(200,167,101,0.04)}
+  .dropzone.drag{border-color:var(--gold)}
+  .dropzone img{max-width:100%;max-height:280px;border-radius:10px;margin-top:10px}
+  #status{font-size:13px;padding:10px 12px;border-radius:10px;margin-top:10px;display:none}
+  #status.show{display:block;animation:fadeIn .2s ease}
+  #status.info{background:#1b2a33;color:#8fc7e0}
+  #status.error{background:#301717;color:#e0938a}
+  #status.ok{background:#16261a;color:#9fd4ac}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  .hierarchy{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+  .el-item{
+    background:var(--panel2);
+    border:1px solid #2f2f34;
+    border-radius:10px;
+    padding:10px 12px;
+    cursor:pointer;
+    font-size:13.5px;
+    display:flex;justify-content:space-between;gap:10px;
+    transition:border-color .15s, transform .1s;
+  }
+  .el-item:hover{border-color:var(--gold-dim);transform:translateX(-2px)}
+  .el-item.selected{border-color:var(--gold);background:#241f14}
+  .el-item .meta{color:var(--muted);font-size:12px}
+  details{margin-top:12px}
+  details summary{cursor:pointer;color:var(--muted);font-size:12px}
+  pre{
+    background:#0b0b0c;border:1px solid #2a2a2e;border-radius:10px;padding:12px;
+    overflow:auto;font-size:12px;color:#c9c2b2;white-space:pre-wrap;direction:ltr;text-align:left;
+  }
+  .char-counter{font-size:12px;margin-top:6px}
+  .char-counter.over{color:var(--danger)}
+  .char-counter.under{color:var(--ok)}
+  .compare{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+  .compare figure{flex:1;min-width:220px;margin:0;text-align:center}
+  .compare img{width:100%;border-radius:12px;border:1px solid #2a2a2e}
+  .compare figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 20px 40px}
+  .locked-note{
+    background:#1b1712;border:1px solid var(--gold-dim);border-radius:10px;
+    padding:10px 12px;font-size:12.5px;color:#d7c69a;margin-top:10px;
+  }
+  .disabled-section{opacity:.4;pointer-events:none}
+  .onboarding{
+    background:#14181c;border:1px solid #24343d;border-radius:12px;
+    padding:12px 14px;font-size:13px;color:#a9c2cf;margin-bottom:14px;
+  }
+  .onboarding summary{cursor:pointer;color:#8fc7e0;font-size:13.5px}
+  .onboarding ol{margin:10px 0 0;padding-right:20px}
+  .onboarding li{margin-bottom:6px}
+  .onboarding a{color:var(--gold)}
+  .remember-row{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--muted)}
+  .remember-row input{width:auto}
+
+  /* ---------- Feedback ---------- */
+  .fab{
+    position:fixed;bottom:22px;left:22px;z-index:40;
+    border-radius:999px;padding:13px 20px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  }
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,0.6);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:16px;
+  }
+  .modal-backdrop.show{display:flex;animation:fadeIn .15s ease}
+  .modal{
+    background:var(--bg2);border:1px solid var(--panel-border);border-radius:16px;
+    max-width:440px;width:100%;padding:22px;
+  }
+  .modal h3{margin:0 0 6px;color:var(--gold-bright);font-size:17px}
+  .modal p{margin:0 0 14px;color:var(--muted);font-size:13px}
+  .reactions{display:flex;gap:8px;margin-bottom:14px}
+  .reactions button{flex:1;font-size:22px;padding:10px;background:var(--panel2);border:1px solid #333338;color:var(--text)}
+  .reactions button.picked{border-color:var(--gold);background:#241f14}
+  .modal-actions{display:flex;gap:10px;margin-top:14px}
+  .modal-actions button{flex:1}
+  .close-x{position:absolute;top:14px;left:14px;background:none;border:none;color:var(--muted);font-size:18px;padding:4px;box-shadow:none}
+  .modal{position:relative}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge"><span class="dot"></span> نسخة تجريبية — Demo، بننشرها عشان نسمع رأيك</div>
+  <h1 id="heroTitle">Surgical Edit</h1>
+  <p class="tagline" id="heroTagline">تعديل جراحي دقيق على أي لقطة — تحلل المشهد، تختار عنصر واحد بالتحديد، وتغيّره من غير ما يتلمس أي حتة تانية في الصورة.</p>
+  <div class="howit">
+    <div class="hi"><span class="ic">🖼️</span><b>1. ارفع</b>لقطتك (رندر/كلاي/صورة)</div>
+    <div class="hi"><span class="ic">🧭</span><b>2. حلّل</b>المشهد لعناصره</div>
+    <div class="hi"><span class="ic">🎯</span><b>3. عدّل</b>عنصر واحد بدقة</div>
+  </div>
+</div>
+
+<div class="stepper" id="stepper">
+  <div class="dot-wrap active" data-step="1"><div class="circle">1</div><div class="lbl">مفتاح</div></div>
+  <div class="seg"></div>
+  <div class="dot-wrap" data-step="2"><div class="circle">2</div><div class="lbl">رفع</div></div>
+  <div class="seg"></div>
+  <div class="dot-wrap" data-step="3"><div class="circle">3</div><div class="lbl">تحليل</div></div>
+  <div class="seg"></div>
+  <div class="dot-wrap" data-step="4"><div class="circle">4</div><div class="lbl">تعديل</div></div>
+  <div class="seg"></div>
+  <div class="dot-wrap" data-step="5"><div class="circle">5</div><div class="lbl">تنفيذ</div></div>
+</div>
+
+<div class="wrap">
+
+  <!-- Step 0: API Key -->
+  <div class="card">
+    <h2><span class="step-num">1</span> مفتاح Gemini API</h2>
+
+    <details class="onboarding">
+      <summary>مش عندك مفتاح؟ ولا فاهم الفرق بينه وبين اشتراك Google AI Pro؟ (دوس هنا)</summary>
+      <ol>
+        <li>روح <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> وسجّل دخول بحساب Google، ودوس Create API key.</li>
+        <li><b>المفتاح نفسه مجاني 100%</b> — تعمله من غير فيزا ومن غير أي دفع. ومعاه كوتة صور مجانية يومية بسيطة من جوجل (الرقم بيتغيّر من فترة لفترة حسب سياسة جوجل)، غالباً تكفي للتجربة الشخصية والتوليدات القليلة.</li>
+        <li>لو استخدمت الكوتة المجانية اليومية كلها، أو عايز استخدام مستقر وأكتر، هيطلب منك تفعّل <b>Cloud Billing</b> (ربط بطاقة). من هنا يبدأ الدفع الفعلي: حوالي 0.05–0.07 دولار لكل صورة بـ Nano Banana 2 (وأعلى شوية بـ Pro) — "المفتاح مجاني" و"الصورة بفلوس" الاتنين صحيحين مع بعض: مجاني لحد سقف يومي، وبعده بفلوس فعلية بتحاسبها جوجل مباشرة، مش الموقع.</li>
+        <li>هذا المفتاح <b>مختلف تماماً</b> عن اشتراكك في Google AI Pro / Gemini Advanced، وده بيوسّع الحدود بس جوه تطبيق Gemini وAI Studio نفسهم.</li>
+        <li>كل زائر بيحط مفتاحه الخاص، يعني كل واحد عنده كوتته المجانية اليومية لوحده.</li>
+      </ol>
+    </details>
+
+    <label>ألصق مفتاح Gemini API الخاص بك</label>
+    <input type="password" id="apiKey" placeholder="AIza...">
+    <p class="hint">المفتاح بيعدي على سيرفر صغير (relay) بيوجّهه لجوجل فوراً من غير ما يتخزن عنده أو يتسجّل — الغرض منه حماية منطق البرومبت بس، ملوش أي علاقة بفلوسك أو بياناتك.</p>
+    <div class="remember-row">
+      <input type="checkbox" id="rememberKey">
+      <label for="rememberKey" style="margin:0">تذكّر المفتاح على هذا الجهاز فقط (يُحفظ محلياً في متصفحك، ولا يُرسل لأي مكان تاني)</label>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div>
+        <label>الموديل</label>
+        <select id="model">
+          <option value="gemini-3.1-flash-image" selected>Nano Banana 2 (gemini-3.1-flash-image) — نفس اللي مقفول عليه Surgical Pro</option>
+          <option value="gemini-3-pro-image">Nano Banana Pro (gemini-3-pro-image) — جودة وتفاصيل أعلى، أبطأ وأغلى</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1: Upload -->
+  <div class="card">
+    <h2><span class="step-num">2</span> رفع اللقطة</h2>
+    <div class="dropzone" id="dropzone">
+      <div id="dropzoneText">اسحب الصورة هنا أو دوس للاختيار (رندر / كلاي / صورة جاهزة)</div>
+      <input type="file" id="fileInput" accept="image/*" style="display:none">
+      <img id="preview" style="display:none">
+    </div>
+  </div>
+
+  <!-- Step 2: Analyze -->
+  <div class="card">
+    <h2><span class="step-num">3</span> تحليل المشهد (Scene Map)</h2>
+    <button id="analyzeBtn" disabled>حلّل المشهد</button>
+    <div id="analyzeStatus"></div>
+    <div id="hierarchyBox" style="display:none">
+      <div class="hierarchy" id="hierarchyList"></div>
+      <details>
+        <summary>عرض JSON Scene Map الخام</summary>
+        <pre id="sceneJson"></pre>
+      </details>
+    </div>
+  </div>
+
+  <!-- Step 3: Edit action -->
+  <div class="card disabled-section" id="editSection">
+    <h2><span class="step-num">4</span> نوع التعديل الجراحي</h2>
+    <p class="hint" id="selectedElementLabel">اختر عنصر من قائمة المشهد فوق أولاً.</p>
+    <div class="row">
+      <div>
+        <label>الإجراء (Edit Action)</label>
+        <select id="editAction">
+          <option value="Change Material">تغيير الخامة (Change Material)</option>
+          <option value="Replace">استبدال العنصر (Replace)</option>
+          <option value="Transform">تحويل/تعديل شكل العنصر (Transform)</option>
+        </select>
+      </div>
+      <div>
+        <label>القيمة (Edit Value)</label>
+        <input type="text" id="editValue" placeholder="مثال: رخام كرارا لامع / كنبة جلد بني / تدوير 30 درجة">
+      </div>
+    </div>
+    <button id="buildPromptBtn" style="margin-top:12px">تأكيد التعديل</button>
+    <div id="promptBox" style="display:none">
+      <p class="hint" style="margin-top:12px" id="promptSummary"></p>
+      <div class="locked-note">
+        Surgical Lock مفعّل: لا تحريك كاميرا، لا Reframe، لا Outpaint، وكل سطح غير مُستهدف يُعاد كما هو بدقة بكسل. تفاصيل البرومبت الكاملة بتُبنى وتُنفَّذ من خلال السيرفر الصغير، ومش ظاهرة في كود الصفحة.
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Execute -->
+  <div class="card disabled-section" id="executeSection">
+    <h2><span class="step-num">5</span> تنفيذ التعديل</h2>
+    <button id="executeBtn">نفّذ التعديل على الصورة</button>
+    <div id="executeStatus"></div>
+    <div class="compare" id="compareBox" style="display:none">
+      <figure><img id="originalImg"><figcaption>قبل</figcaption></figure>
+      <figure><img id="resultImg"><figcaption>بعد</figcaption></figure>
+    </div>
+    <button class="secondary" id="downloadBtn" style="display:none;margin-top:10px">تحميل الصورة الناتجة</button>
+    <div id="resultFeedbackNudge" style="display:none;margin-top:14px">
+      <button id="openFeedbackFromResult">🎯 شاركنا رأيك في النتيجة (30 ثانية بس)</button>
+    </div>
+  </div>
+
+</div>
+
+<footer id="siteFooter">أداة تجريبية · unscene.ai</footer>
+
+<!-- Feedback FAB + modal -->
+<button class="fab" id="feedbackFab">💬 رأيك يهمنا</button>
+<div class="modal-backdrop" id="feedbackBackdrop">
+  <div class="modal">
+    <button class="close-x" id="closeFeedback">✕</button>
+    <h3>إحساسك بالأداة إيه؟</h3>
+    <p>ملاحظتك بتتبنى عليها التحديثات الجاية — مش شكل بس، فعلاً بتتقرأ.</p>
+    <div class="reactions" id="reactions">
+      <button data-r="😍">😍</button>
+      <button data-r="🙂">🙂</button>
+      <button data-r="😐">😐</button>
+      <button data-r="😕">😕</button>
+    </div>
+    <textarea id="feedbackText" placeholder="اكتب أي ملاحظة، اقتراح، أو حاجة معطلاك..."></textarea>
+    <div class="modal-actions">
+      <button class="ghost" id="cancelFeedback">لاحقاً</button>
+      <button id="sendFeedback">إرسال</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- Config — عدّل هنا فقط عشان تغيّر الاسم أو وسيلة استقبال الملاحظات ----------
+const CONFIG = {
+  TOOL_NAME: "Surgical Edit",           // الاسم غالباً هيتغيّر — دي أول مكان تعدّله فيه
+  TAGLINE: "تعديل جراحي دقيق على أي لقطة — تحلل المشهد، تختار عنصر واحد بالتحديد، وتغيّره من غير ما يتلمس أي حتة تانية في الصورة.",
+  FEEDBACK_EMAIL: "REPLACE_WITH_YOUR_EMAIL@example.com", // بدّلها بإيميلك أو اربطها بـ Google Form
+  WORKER_BASE_URL: "",                  // حط هنا رابط الـ Worker بعد نشره (worker.js) — مثال: "https://surgical-edit-relay.YOUR-NAME.workers.dev"
+};
+document.getElementById('pageTitle').textContent = CONFIG.TOOL_NAME + ' — نسخة تجريبية';
+document.getElementById('heroTitle').textContent = CONFIG.TOOL_NAME;
+document.getElementById('heroTagline').textContent = CONFIG.TAGLINE;
+document.getElementById('siteFooter').textContent = 'أداة تجريبية · ' + CONFIG.TOOL_NAME + ' · unscene.ai';
+
+const state = {
+  imageBase64: null,
+  imageMime: null,
+  sceneMap: null,
+  selectedElement: null,
+  editSelection: null,
+  reaction: null,
+};
+
+const el = id => document.getElementById(id);
+
+// ---------- Stepper ----------
+function setStep(n, doneUpTo){
+  document.querySelectorAll('.dot-wrap').forEach(w => {
+    const s = parseInt(w.dataset.step, 10);
+    w.classList.remove('active','done');
+    if (s < n) w.classList.add('done');
+    if (s === n) w.classList.add('active');
+  });
+  document.querySelectorAll('.seg').forEach((seg, i) => {
+    seg.classList.toggle('done', i + 1 < n);
+  });
+}
+setStep(1);
+
+// ---------- Remembered key ----------
+try {
+  const savedKey = localStorage.getItem('surgical_edit_api_key');
+  if (savedKey) {
+    el('apiKey').value = savedKey;
+    el('rememberKey').checked = true;
+  }
+} catch (e) {}
+
+el('rememberKey').addEventListener('change', () => {
+  try {
+    if (el('rememberKey').checked) localStorage.setItem('surgical_edit_api_key', el('apiKey').value.trim());
+    else localStorage.removeItem('surgical_edit_api_key');
+  } catch (e) {}
+});
+el('apiKey').addEventListener('input', () => {
+  if (el('apiKey').value.trim()) setStep(2);
+  if (el('rememberKey').checked) {
+    try { localStorage.setItem('surgical_edit_api_key', el('apiKey').value.trim()); } catch (e) {}
+  }
+});
+
+function setStatus(target, type, msg){
+  const box = el(target);
+  box.className = 'show ' + type;
+  box.textContent = msg;
+}
+function clearStatus(target){
+  const box = el(target);
+  box.className = '';
+  box.textContent = '';
+}
+
+// ---------- Upload ----------
+const dropzone = el('dropzone');
+const fileInput = el('fileInput');
+dropzone.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('drag');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => {
+  if (e.target.files.length) handleFile(e.target.files[0]);
+});
+
+function handleFile(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = reader.result;
+    state.imageMime = file.type || 'image/jpeg';
+    state.imageBase64 = dataUrl.split(',')[1];
+    el('preview').src = dataUrl;
+    el('preview').style.display = 'block';
+    el('dropzoneText').textContent = file.name;
+    el('analyzeBtn').disabled = false;
+    el('originalImg').src = dataUrl;
+    setStep(3);
+  };
+  reader.readAsDataURL(file);
+}
+
+// ---------- Worker relay call helper ----------
+// المتصفح مش بيكلم Google مباشرة تاني — بيكلم الـ Worker (worker.js) اللي هو
+// اللي عنده منطق البرومبت الحقيقي وبيوجّه المفتاح لجوجل من غيره يتخزن.
+async function callGemini({ imageBase64, imageMime, wantImage, endpoint, extra }) {
+  const apiKey = el('apiKey').value.trim();
+  if (!apiKey) throw new Error('محتاج تلصق مفتاح Gemini API الأول.');
+  if (!CONFIG.WORKER_BASE_URL) throw new Error('لسه محتاج تنشر الـ Worker (worker.js) وتحط رابطه في CONFIG.WORKER_BASE_URL جوه الكود.');
+  const model = el('model').value;
+
+  const res = await fetch(CONFIG.WORKER_BASE_URL + endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ apiKey, model, imageBase64, imageMime, ...(extra || {}) })
+  });
+
+  const raw = await res.text();
+  let data;
+  try { data = JSON.parse(raw); } catch (e) { throw new Error('رد غير متوقع من الـ API: ' + raw.slice(0, 300)); }
+
+  if (!res.ok) {
+    const msg = (data && data.error && data.error.message) ? data.error.message : raw;
+    throw new Error('خطأ من Gemini API (' + res.status + '): ' + msg);
+  }
+
+  let textOut = '';
+  let imageOut = null;
+  const blocks =
+    (data.output && data.output.length && data.output[0].content) ||
+    (data.output_content) ||
+    (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) ||
+    [];
+
+  for (const block of blocks) {
+    if (block.type === 'text' && block.text) textOut += block.text;
+    if (block.type === 'image' && block.data) imageOut = { mime: block.mime_type || 'image/png', data: block.data };
+    if (block.text && !block.type) textOut += block.text;
+    if (block.inlineData && block.inlineData.data) imageOut = { mime: block.inlineData.mimeType || 'image/png', data: block.inlineData.data };
+    if (block.inline_data && block.inline_data.data) imageOut = { mime: block.inline_data.mime_type || 'image/png', data: block.inline_data.data };
+  }
+
+  if (wantImage && !imageOut) {
+    throw new Error('الموديل رد بنص بس ومن غير صورة. جرّب توضّح قيمة التعديل أكتر أو جرّب موديل Nano Banana Pro.');
+  }
+  return { text: textOut, image: imageOut, raw: data };
+}
+
+function extractJson(text){
+  const fence = text.match(/```json\s*([\s\S]*?)```/i) || text.match(/```\s*([\s\S]*?)```/);
+  const candidate = fence ? fence[1] : text;
+  const start = candidate.indexOf('{');
+  const end = candidate.lastIndexOf('}');
+  if (start === -1 || end === -1) throw new Error('مش قادر ألاقي JSON صحيح في رد التحليل.');
+  return JSON.parse(candidate.slice(start, end + 1));
+}
+
+// ---------- Step 3: Analyze ----------
+el('analyzeBtn').addEventListener('click', async () => {
+  clearStatus('analyzeStatus');
+  el('analyzeBtn').disabled = true;
+  setStatus('analyzeStatus', 'info', 'بيحلل المشهد دلوقتي... (بياخد كذا ثانية)');
+
+  try {
+    const result = await callGemini({
+      imageBase64: state.imageBase64,
+      imageMime: state.imageMime,
+      wantImage: false,
+      endpoint: '/analyze'
+    });
+    const json = extractJson(result.text);
+    state.sceneMap = json;
+    renderHierarchy(json);
+    el('sceneJson').textContent = JSON.stringify(json, null, 2);
+    el('hierarchyBox').style.display = 'block';
+    setStatus('analyzeStatus', 'ok', `تم — ${json.elements.length} عنصر تم اكتشافهم.`);
+    setStep(4);
+  } catch (err) {
+    setStatus('analyzeStatus', 'error', err.message);
+  } finally {
+    el('analyzeBtn').disabled = false;
+  }
+});
+
+function renderHierarchy(json){
+  const list = el('hierarchyList');
+  list.innerHTML = '';
+  json.elements.forEach(elem => {
+    const div = document.createElement('div');
+    div.className = 'el-item';
+    div.innerHTML = `<span>${elem.label_ar} <span class="meta">(${elem.label_en})</span></span><span class="meta">${elem.material || ''}</span>`;
+    div.addEventListener('click', () => selectElement(elem, div));
+    list.appendChild(div);
+  });
+}
+
+function selectElement(elem, node){
+  state.selectedElement = elem;
+  document.querySelectorAll('.el-item').forEach(n => n.classList.remove('selected'));
+  node.classList.add('selected');
+  el('selectedElementLabel').textContent = `العنصر المحدد: ${elem.label_ar} — ${elem.spatial_locator}`;
+  el('editSection').classList.remove('disabled-section');
+}
+
+// ---------- Step 4: Confirm the edit (the actual prompt is built server-side) ----------
+el('buildPromptBtn').addEventListener('click', () => {
+  if (!state.selectedElement) return;
+  const action = el('editAction').value;
+  const value = el('editValue').value.trim();
+  if (!value) { alert('اكتب قيمة التعديل الأول (Edit Value).'); return; }
+
+  const target = state.selectedElement;
+  state.editSelection = { target: { label_en: target.label_en, spatial_locator: target.spatial_locator }, action, value };
+
+  el('promptSummary').textContent = `هيتم تنفيذ: ${target.label_ar} ← ${action} ← ${value}، مع قفل جراحي كامل على باقي الصورة.`;
+  el('promptBox').style.display = 'block';
+  el('executeSection').classList.remove('disabled-section');
+  setStep(5);
+});
+
+// ---------- Step 5: Execute edit ----------
+el('executeBtn').addEventListener('click', async () => {
+  clearStatus('executeStatus');
+  if (!state.editSelection) { setStatus('executeStatus', 'error', 'لازم تأكّد التعديل الأول.'); return; }
+  el('executeBtn').disabled = true;
+  setStatus('executeStatus', 'info', 'بينفّذ التعديل دلوقتي... (بياخد كذا ثانية حسب الموديل)');
+
+  try {
+    const result = await callGemini({
+      imageBase64: state.imageBase64,
+      imageMime: state.imageMime,
+      wantImage: true,
+      endpoint: '/edit',
+      extra: state.editSelection
+    });
+    const resultSrc = `data:${result.image.mime};base64,${result.image.data}`;
+    el('resultImg').src = resultSrc;
+    el('compareBox').style.display = 'flex';
+    el('downloadBtn').style.display = 'inline-block';
+    el('downloadBtn').onclick = () => {
+      const a = document.createElement('a');
+      a.href = resultSrc;
+      a.download = 'surgical-edit-result.png';
+      a.click();
+    };
+    setStatus('executeStatus', 'ok', 'تم التعديل بنجاح.');
+    setStep(6); // كل الخطوات خلصت
+    el('resultFeedbackNudge').style.display = 'block';
+  } catch (err) {
+    setStatus('executeStatus', 'error', err.message);
+  } finally {
+    el('executeBtn').disabled = false;
+  }
+});
+
+// ---------- Feedback modal ----------
+function openFeedback(){ el('feedbackBackdrop').classList.add('show'); }
+function closeFeedback(){ el('feedbackBackdrop').classList.remove('show'); }
+el('feedbackFab').addEventListener('click', openFeedback);
+el('openFeedbackFromResult').addEventListener('click', openFeedback);
+el('closeFeedback').addEventListener('click', closeFeedback);
+el('cancelFeedback').addEventListener('click', closeFeedback);
+el('feedbackBackdrop').addEventListener('click', e => { if (e.target.id === 'feedbackBackdrop') closeFeedback(); });
+
+document.querySelectorAll('#reactions button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#reactions button').forEach(b => b.classList.remove('picked'));
+    btn.classList.add('picked');
+    state.reaction = btn.dataset.r;
+  });
+});
+
+el('sendFeedback').addEventListener('click', () => {
+  const text = el('feedbackText').value.trim();
+  const reaction = state.reaction || '(بدون تقييم)';
+  const subject = encodeURIComponent(`ملاحظة على ${CONFIG.TOOL_NAME}`);
+  const body = encodeURIComponent(`التقييم: ${reaction}\n\nالملاحظة:\n${text || '(بدون نص)'}`);
+  // بديل أسرع للـ mailto: اربط الزرار ده بلينك Google Form عندك بدل الإيميل — أسهل في تجميع وتحليل الردود.
+  window.location.href = `mailto:${CONFIG.FEEDBACK_EMAIL}?subject=${subject}&body=${body}`;
+  closeFeedback();
+  el('feedbackText').value = '';
+});
+</script>
+</body>
+</html>

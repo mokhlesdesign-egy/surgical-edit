@@ -278,10 +278,10 @@
       <summary>مش عندك مفتاح؟ ولا فاهم الفرق بينه وبين اشتراك Google AI Pro؟ (دوس هنا)</summary>
       <ol>
         <li>روح <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> وسجّل دخول بحساب Google، ودوس Create API key.</li>
-        <li><b>المفتاح نفسه مجاني 100%</b> — تعمله من غير فيزا ومن غير أي دفع. ومعاه كوتة صور مجانية يومية بسيطة من جوجل (الرقم بيتغيّر من فترة لفترة حسب سياسة جوجل)، غالباً تكفي للتجربة الشخصية والتوليدات القليلة.</li>
-        <li>لو استخدمت الكوتة المجانية اليومية كلها، أو عايز استخدام مستقر وأكتر، هيطلب منك تفعّل <b>Cloud Billing</b> (ربط بطاقة). من هنا يبدأ الدفع الفعلي: حوالي 0.05–0.07 دولار لكل صورة بـ Nano Banana 2 (وأعلى شوية بـ Pro) — "المفتاح مجاني" و"الصورة بفلوس" الاتنين صحيحين مع بعض: مجاني لحد سقف يومي، وبعده بفلوس فعلية بتحاسبها جوجل مباشرة، مش الموقع.</li>
+        <li><b>المفتاح نفسه مجاني 100%</b> — تعمله من غير فيزا ومن غير أي دفع.</li>
+        <li><b>خطوة "حلّل المشهد" مجانية بالكامل</b> ومش محتاجة Billing خالص — بتستخدم موديل تحليل عنده كوتة مجانية حقيقية من جوجل.</li>
+        <li><b>خطوة "نفّذ التعديل" (توليد الصورة النهائية)</b> هي اللي محتاجة تفعيل <b>Cloud Billing</b> (ربط بطاقة) — لأن جوجل ابتداءً من إبريل 2026 ألغت أي كوتة مجانية لموديلات توليد الصور (Nano Banana بكل نسخه) خالص، مش بس على حسابك. بعد التفعيل، كل صورة بتتحاسب حوالي 0.05–0.07 دولار مباشرة من جوجل، مش من الموقع.</li>
         <li>هذا المفتاح <b>مختلف تماماً</b> عن اشتراكك في Google AI Pro / Gemini Advanced، وده بيوسّع الحدود بس جوه تطبيق Gemini وAI Studio نفسهم.</li>
-        <li>كل زائر بيحط مفتاحه الخاص، يعني كل واحد عنده كوتته المجانية اليومية لوحده.</li>
       </ol>
     </details>
 
@@ -400,7 +400,7 @@ const CONFIG = {
   TOOL_NAME: "Surgical Edit",           // الاسم غالباً هيتغيّر — دي أول مكان تعدّله فيه
   TAGLINE: "تعديل جراحي دقيق على أي لقطة — تحلل المشهد، تختار عنصر واحد بالتحديد، وتغيّره من غير ما يتلمس أي حتة تانية في الصورة.",
   FEEDBACK_EMAIL: "REPLACE_WITH_YOUR_EMAIL@example.com", // بدّلها بإيميلك أو اربطها بـ Google Form
-  WORKER_BASE_URL: "https://surgical-edit-relay.mokhlesdesign.workers.dev",                  // حط هنا رابط الـ Worker بعد نشره (worker.js) — مثال: "https://surgical-edit-relay.YOUR-NAME.workers.dev"
+  WORKER_BASE_URL: "",                  // حط هنا رابط الـ Worker بعد نشره (worker.js) — مثال: "https://surgical-edit-relay.YOUR-NAME.workers.dev"
 };
 document.getElementById('pageTitle').textContent = CONFIG.TOOL_NAME + ' — نسخة تجريبية';
 document.getElementById('heroTitle').textContent = CONFIG.TOOL_NAME;
